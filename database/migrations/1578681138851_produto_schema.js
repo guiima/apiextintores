@@ -18,6 +18,7 @@ class ProdutoSchema extends Schema {
       table.decimal("desconto");
       table.string("nome");
       table.enu("categoria", ["acessorio", "extintor", "servico"]);
+      table.date("validade");
       table.timestamps();
     });
   }
