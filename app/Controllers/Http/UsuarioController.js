@@ -4,7 +4,9 @@ const Usuario = use("App/Models/Usuario");
 
 class UsuarioController {
   async index() {
-    const data = await Usuario.all();
+    const data = await Usuario.query()
+      .where("status", true)
+      .fetch();
 
     return data;
   }
