@@ -8,6 +8,8 @@ class UsuarioController {
       .where("status", true)
       .fetch();
 
+    //apagar esse comentario
+
     return data;
   }
 
