@@ -8,6 +8,7 @@ class ItemOrcamentoSchema extends Schema {
     this.create("item_orcamentos", table => {
       table.increments();
       table.integer("quantidade").notNullable();
+      table.decimal("desconto");
       table
         .integer("orcamento_id")
         .unsigned()

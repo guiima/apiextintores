@@ -8,6 +8,7 @@ class ItemPedidoSchema extends Schema {
     this.create("item_pedidos", table => {
       table.increments();
       table.integer("quantidade").notNullable();
+      table.decimal("desconto");
       table
         .integer("pedido_id")
         .unsigned()

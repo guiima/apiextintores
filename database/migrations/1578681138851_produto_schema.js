@@ -15,7 +15,6 @@ class ProdutoSchema extends Schema {
       table.decimal("valor");
       table.integer("qtd_atual");
       table.integer("qtd_minima");
-      table.decimal("desconto");
       table.string("nome");
       table.enu("categoria", ["acessorio", "extintor", "servico"]);
       table.date("validade");

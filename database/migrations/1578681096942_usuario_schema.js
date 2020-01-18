@@ -13,7 +13,7 @@ class UsuarioSchema extends Schema {
         .notNullable()
         .unique();
       table.string("senha").notNullable();
-      table.enu("tipo", ["adm", "consultor"]).notNullable();
+      table.enu("tipo", ["administrador", "consultor"]).notNullable();
       //---- 0 o uruario não está ativo e 1 está ativo ----
       table.boolean("status").notNullable();
       table.timestamps();
