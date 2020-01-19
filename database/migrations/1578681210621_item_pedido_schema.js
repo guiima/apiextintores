@@ -9,6 +9,7 @@ class ItemPedidoSchema extends Schema {
       table.increments();
       table.integer("quantidade").notNullable();
       table.decimal("desconto");
+      table.date("validade");
       table
         .integer("pedido_id")
         .unsigned()
