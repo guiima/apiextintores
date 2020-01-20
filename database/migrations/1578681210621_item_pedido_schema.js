@@ -10,6 +10,7 @@ class ItemPedidoSchema extends Schema {
       table.integer("quantidade").notNullable();
       table.decimal("desconto");
       table.date("validade");
+      table.enu("situacao", ["consignado", "novo", "recarga"]);
       table
         .integer("pedido_id")
         .unsigned()

@@ -2,7 +2,7 @@
 
 const Servico = use("App/Models/Produto");
 
-class UsuarioController {
+class ServicoController {
   async index() {
     const data = await Servico.query()
       .where("status", true)
@@ -43,4 +43,4 @@ class UsuarioController {
   }
 }
 
-module.exports = UsuarioController;
+module.exports = ServicoController;

@@ -2,7 +2,7 @@
 
 const Acessorio = use("App/Models/Produto");
 
-class UsuarioController {
+class AcessorioController {
   async index() {
     const data = await Acessorio.query()
       .where("status", true)
@@ -57,4 +57,4 @@ class UsuarioController {
   }
 }
 
-module.exports = UsuarioController;
+module.exports = AcessorioController;

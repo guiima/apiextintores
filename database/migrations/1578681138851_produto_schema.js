@@ -7,7 +7,6 @@ class ProdutoSchema extends Schema {
   up() {
     this.create("produtos", table => {
       table.increments();
-      table.enu("situacao", ["consignado", "novo", "recarga"]);
       table.string("tipo");
       table.string("classe");
       table.decimal("carga_nominal");

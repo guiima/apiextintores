@@ -9,6 +9,7 @@ class ItemOrcamentoSchema extends Schema {
       table.increments();
       table.integer("quantidade").notNullable();
       table.decimal("desconto");
+      table.enu("situacao", ["consignado", "novo", "recarga"]);
       table
         .integer("orcamento_id")
         .unsigned()
