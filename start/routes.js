@@ -23,3 +23,7 @@ const Route = use("Route");
 Route.resource("usuarios", "UsuarioController").apiOnly();
 
 Route.post("login", "LoginController.login");
+
+Route.resource("servicos", "ServicoController").apiOnly();
+
+Route.resource("acessorios", "AcessorioController").apiOnly();
