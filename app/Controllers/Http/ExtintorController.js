@@ -22,7 +22,6 @@ class UsuarioController {
       "qtd_atual",
       "qtd_minima",
       "validade",
-      "situacao",
       "categoria",
       "status"
     ]);
@@ -49,7 +48,6 @@ class UsuarioController {
       "qtd_atual",
       "qtd_minima",
       "validade",
-      "situacao",
       "categoria",
       "status"
     ]);

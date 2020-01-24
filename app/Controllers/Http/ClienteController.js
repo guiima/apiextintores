@@ -1,93 +1,80 @@
-'use strict'
+"use strict";
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+const Cliente = use("App/Models/Cliente");
 
-/**
- * Resourceful controller for interacting with clientes
- */
 class ClienteController {
-  /**
-   * Show a list of all clientes.
-   * GET clientes
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async index() {
+    const data = await Cliente.query()
+      .where("status", true)
+      .with("usuario")
+      .fetch();
+
+    return data;
   }
 
-  /**
-   * Render a form to be used for creating a new cliente.
-   * GET clientes/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async store({ request }) {
+    const data = request.only([
+      "nome_fantasia",
+      "razao_social",
+      "tipo_pessoa",
+      "metragem",
+      "cpf",
+      "cnpj",
+      "endereco",
+      "cep",
+      "mei",
+      "data_nascimento",
+      "responsavel",
+      "observacao",
+      "inscricao_estadual",
+      "privado",
+      "status",
+      "usuario_id"
+    ]);
+
+    const cliente = await Cliente.create(data);
+
+    return cliente;
   }
 
-  /**
-   * Create/save a new cliente.
-   * POST clientes
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
+  async show({ params }) {
+    const data = await Cliente.findOrFail(params.id);
+
+    return data;
   }
 
-  /**
-   * Display a single cliente.
-   * GET clientes/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
+  async update({ params, request }) {
+    const cliente = await Cliente.findOrFail(params.id);
+    const data = request.only([
+      "nome_fantasia",
+      "razao_social",
+      "tipo_pessoa",
+      "metragem",
+      "cpf",
+      "cnpj",
+      "endereco",
+      "cep",
+      "mei",
+      "data_nascimento",
+      "responsavel",
+      "observacao",
+      "inscricao_estadual",
+      "privado",
+      "status",
+      "usuario_id"
+    ]);
+
+    cliente.merge(data);
+    await cliente.save();
+
+    return cliente;
   }
 
-  /**
-   * Render a form to update an existing cliente.
-   * GET clientes/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+  async destroy({ params }) {
+    const usuario = await Cliente.findOrFail(params.id);
 
-  /**
-   * Update cliente details.
-   * PUT or PATCH clientes/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a cliente with id.
-   * DELETE clientes/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+    await usuario.delete();
   }
 }
 
-module.exports = ClienteController
+module.exports = ClienteController;

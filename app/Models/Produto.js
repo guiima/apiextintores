@@ -15,6 +15,18 @@ class Produto extends Model {
   item_orcamemto() {
     return this.hasMany("App/Models/ItemOrcamento");
   }
+
+  // static get dates() {
+  //   return super.dates.concat(["validade"]);
+  // }
+
+  // static formatDates(field, value) {
+  //   // new Date(value);
+  //   if (field === "validade") {
+  //     return value.format("DD/MM/YYYY");
+  //   }
+  //   return super.formatDates(field, value);
+  // }
 }
 
 module.exports = Produto;

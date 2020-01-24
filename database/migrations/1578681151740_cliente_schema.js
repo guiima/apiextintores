@@ -24,7 +24,7 @@ class ClienteSchema extends Schema {
       table.text("observacao");
       table.string("inscricao_estadual");
       table.boolean("privado").notNullable();
-      table.enu("status", ["ativo", "desativado"]).notNullable();
+      table.boolean("status").notNullable();
       table
         .integer("usuario_id")
         .unsigned()

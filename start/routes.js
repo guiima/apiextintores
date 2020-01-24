@@ -29,3 +29,5 @@ Route.resource("servicos", "ServicoController").apiOnly();
 Route.resource("acessorios", "AcessorioController").apiOnly();
 
 Route.resource("extintores", "ExtintorController").apiOnly();
+
+Route.resource("clientes", "ClienteController").apiOnly();
