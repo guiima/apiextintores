@@ -38,7 +38,10 @@ class ClienteController {
   }
 
   async show({ params }) {
-    const data = await Cliente.findOrFail(params.id);
+    const data = await Cliente.query()
+      .with("usuario")
+      .where("id", params.id)
+      .fetch();
 
     return data;
   }
