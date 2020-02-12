@@ -33,3 +33,5 @@ Route.resource("extintores", "ExtintorController").apiOnly();
 Route.resource("clientes", "ClienteController").apiOnly();
 
 Route.resource("migrar", "MigrarClienteController").apiOnly();
+
+Route.resource("pedidos", "PedidoController").apiOnly();
