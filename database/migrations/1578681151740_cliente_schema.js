@@ -9,7 +9,7 @@ class ClienteSchema extends Schema {
       table.increments();
       table.string("nome_fantasia").notNullable();
       table.string("razao_social");
-      table.enu("tipo_pessoa", ["fisica", "juridica"]).notNullable();
+      table.enu("tipo_pessoa", ["Física", "Jurídica"]).notNullable();
       table.decimal("metragem");
       table.string("cpf").notNullable();
       table.string("cnpj");
