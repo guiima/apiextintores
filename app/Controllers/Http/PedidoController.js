@@ -4,7 +4,13 @@ const Database = use("Database");
 const Pedido = use("App/Models/Pedido");
 
 class PedidoController {
-  async index({ request, response, view }) {}
+  async index() {
+    const data = await Pedido.query()
+      .with("cliente")
+      .fetch();
+
+    return data;
+  }
 
   async store({ request }) {
     const data = request.only([
