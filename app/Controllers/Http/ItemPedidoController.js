@@ -10,6 +10,7 @@ class ItemPedidoController {
   async show({ params }) {
     const data = await ItemPedido.query()
       .where("pedido_id", params.id)
+      .with("produto")
       .fetch();
 
     return data;
