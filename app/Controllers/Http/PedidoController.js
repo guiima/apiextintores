@@ -6,6 +6,8 @@ const Pedido = use("App/Models/Pedido");
 class PedidoController {
   async index() {
     const data = await Pedido.query()
+      .table("pedidos")
+      .orderBy("created_at", "desc")
       .with("cliente")
       .fetch();
 
