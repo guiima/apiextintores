@@ -37,3 +37,5 @@ Route.resource("migrar", "MigrarClienteController").apiOnly();
 Route.resource("pedidos", "PedidoController").apiOnly();
 
 Route.resource("orcamentos", "OrcamentoController").apiOnly();
+
+Route.resource("itempedido", "ItemPedidoController").apiOnly();
