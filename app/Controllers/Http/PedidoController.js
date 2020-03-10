@@ -9,6 +9,7 @@ class PedidoController {
       .table("pedidos")
       .orderBy("created_at", "desc")
       .with("cliente")
+      .with("item_pedido")
       .fetch();
 
     return data;

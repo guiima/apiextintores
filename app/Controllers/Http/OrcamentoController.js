@@ -4,7 +4,16 @@ const Database = use("Database");
 const Orcamento = use("App/Models/Orcamento");
 
 class OrcamentoController {
-  async index({ request, response, view }) {}
+  async index() {
+    const data = await Orcamento.query()
+      .table("orcamentos")
+      .orderBy("created_at", "desc")
+      .with("cliente")
+      .with("item_orcamento")
+      .fetch();
+
+    return data;
+  }
 
   async store({ request }) {
     const data = request.only(["valor", "status", "cliente_id"]);
