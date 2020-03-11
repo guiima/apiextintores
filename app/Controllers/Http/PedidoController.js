@@ -34,9 +34,33 @@ class PedidoController {
     return pedido;
   }
 
-  async show({ params, request, response, view }) {}
+  async show({ params }) {
+    const data = await Pedido.query()
+      .with("cliente")
+      .with("item_pedido")
+      .where("id", params.id)
+      .fetch();
 
-  async update({ params, request, response }) {}
+    return data;
+  }
+
+  async update({ params, request }) {
+    const pedido = await Pedido.findOrFail(params.id);
+    const data = request.only(["valor_pago", "status"]);
+
+    data.valor_pago = parseInt(data.valor_pago) + parseInt(pedido.valor_pago);
+
+    if (data.valor_pago >= pedido.valor_total) {
+      data.status = "pago";
+    } else {
+      data.status = "aberto";
+    }
+
+    pedido.merge(data);
+    await pedido.save();
+
+    return pedido;
+  }
 
   async destroy({ params, request, response }) {}
 }

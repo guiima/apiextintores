@@ -55,7 +55,9 @@ class ClienteController {
       .with("usuario")
       .with("telefone")
       .with("email")
+
       .where("id", params.id)
+      .first()
       .fetch();
 
     return data;
@@ -63,10 +65,11 @@ class ClienteController {
 
   async update({ params, request }) {
     const cliente = await Cliente.query()
-      .where("status", true)
       .with("usuario")
       .with("telefone")
       .with("email")
+      .where("id", params.id)
+      .first()
       .fetch();
 
     const data = request.only([
@@ -85,12 +88,10 @@ class ClienteController {
       "inscricao_estadual",
       "privado",
       "status",
-      "usuario_id",
-      "telefone",
-      "email"
+      "usuario_id"
     ]);
 
-    await cliente.merge(data);
+    cliente.merge(data);
     await cliente.save();
 
     return cliente;
