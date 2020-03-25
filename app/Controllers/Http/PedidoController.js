@@ -62,7 +62,11 @@ class PedidoController {
     return pedido;
   }
 
-  async destroy({ params, request, response }) {}
+  async destroy({ params }) {
+    const pedido = await Pedido.findOrFail(params.id);
+
+    await pedido.delete();
+  }
 }
 
 module.exports = PedidoController;

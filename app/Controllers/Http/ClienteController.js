@@ -55,9 +55,7 @@ class ClienteController {
       .with("usuario")
       .with("telefone")
       .with("email")
-
       .where("id", params.id)
-      .first()
       .fetch();
 
     return data;

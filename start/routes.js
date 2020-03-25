@@ -43,3 +43,5 @@ Route.resource("itempedido", "ItemPedidoController").apiOnly();
 Route.post("pedidodata", "PesquisaPedidoController.show");
 
 Route.post("pedidodatasoma", "PesquisaPedidoController.sumTotal");
+
+Route.resource("clientepedido", "ClienteItemController").apiOnly();
