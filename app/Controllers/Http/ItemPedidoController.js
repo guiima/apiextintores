@@ -3,40 +3,28 @@
 const Database = use("Database");
 const ItemPedido = use("App/Models/ItemPedido");
 const Cliente = use("App/Models/Cliente");
+const Pedido = use("App/Models/Pedido");
 
 class ItemPedidoController {
   async index({ request, response, view }) {}
 
-  async store({ request, response }) {}
-
-  async show({ params, request }) {
-    // const data = Database.table("pedidos")
-    //   .innerJoin("item_pedidos", "pedidos.id", "item_pedidos.pedido_id")
-    //   .where("pedidos.id", params.id);
-
-    // return data;
-
-    // const data = await ItemPedido.query()
-    //   .where("pedido_id", params.id)
-    //   .with("produto")
-    //   .with("pedido", pedido => {
-    //     pedido.where("id", params.id).with("cliente");
-    //   })
-    //   .fetch();
-
-    // return data;
-
+  async store({ request }) {
     const { nome_fantasia } = request.only(["nome_fantasia"]);
-
     const data = await Cliente.query()
       .where("nome_fantasia", "like", `%${nome_fantasia}%`)
       .with("pedido", pedido => {
-        pedido
-          .innerJoin("item_pedidos", "pedidos.id", "item_pedidos.pedido_id")
-          .with("item_pedido", item => {
-            item.with("produto");
-          });
+        pedido.with("item_pedido", item => {
+          item.with("produto");
+        });
       })
+      .fetch();
+    return data;
+  }
+
+  async show({ params }) {
+    const data = await ItemPedido.query()
+      .where("pedido_id", params.id)
+      .with("produto")
       .fetch();
 
     return data;
