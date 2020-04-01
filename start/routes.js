@@ -16,9 +16,9 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-// Route.get('/', () => {
-//   return { greeting: 'Hello world in JSON' }
-// })
+Route.get("/", () => {
+  return { greeting: "Hello world in JSON" };
+});
 
 Route.resource("usuarios", "UsuarioController").apiOnly();
 
@@ -45,3 +45,9 @@ Route.post("pedidodata", "PesquisaPedidoController.show");
 Route.post("pedidodatasoma", "PesquisaPedidoController.sumTotal");
 
 Route.resource("clientepedido", "ClienteItemController").apiOnly();
+
+Route.post("clienteporcpf", "ClienteItemController.buscacpf");
+
+Route.post("buscaEndereco", "ClienteItemController.buscaEndereco");
+
+Route.post("buscadata", "ClienteItemController.buscaData");
