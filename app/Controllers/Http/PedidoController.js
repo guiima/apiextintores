@@ -2,6 +2,7 @@
 
 const Database = use("Database");
 const Pedido = use("App/Models/Pedido");
+const Produto = use("App/Models/Produto");
 
 class PedidoController {
   async index() {
@@ -22,14 +23,23 @@ class PedidoController {
       "status",
       "cliente_id"
     ]);
+
     const itens_pedido = request.input("itens");
 
     const trx = await Database.beginTransaction();
+
+    itens_pedido.map(async item => {
+      await Database.table("produtos")
+        .where("id", item.produto_id)
+        .decrement("qtd_atual", item.quantidade, trx);
+    });
 
     const pedido = await Pedido.create(data, trx);
     await pedido.item_pedido().createMany(itens_pedido, trx);
 
     await trx.commit();
+
+    console.log("entrei em pedidos");
 
     return pedido;
   }

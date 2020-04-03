@@ -30,6 +30,18 @@ class ClienteItemController {
     return data;
   }
 
+  async clienteAll({ params }) {
+    const data = await Cliente.query()
+      .where("id", params.id)
+      .with("pedido", pedido => {
+        pedido.with("item_pedido", item => {
+          item.with("produto");
+        });
+      })
+      .fetch();
+    return data;
+  }
+
   async buscaEndereco({ request }) {
     const { endereco } = request.only(["endereco"]);
     const data = await Cliente.query()

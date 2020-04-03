@@ -36,6 +36,8 @@ Route.resource("migrar", "MigrarClienteController").apiOnly();
 
 Route.resource("pedidos", "PedidoController").apiOnly();
 
+Route.resource("produtos", "ProdutoController").apiOnly();
+
 Route.resource("orcamentos", "OrcamentoController").apiOnly();
 
 Route.resource("itempedido", "ItemPedidoController").apiOnly();
@@ -51,3 +53,5 @@ Route.post("clienteporcpf", "ClienteItemController.buscacpf");
 Route.post("buscaEndereco", "ClienteItemController.buscaEndereco");
 
 Route.post("buscadata", "ClienteItemController.buscaData");
+
+Route.get("clienteall/:id", "ClienteItemController.clienteAll");
