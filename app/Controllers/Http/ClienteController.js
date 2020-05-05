@@ -28,13 +28,14 @@ class ClienteController {
       "endereco",
       "cep",
       "mei",
+      "numero_pavimentos",
       "data_nascimento",
       "responsavel",
       "observacao",
       "inscricao_estadual",
       "privado",
       "status",
-      "usuario_id"
+      "usuario_id",
     ]);
 
     const telefones = request.input("telefone");
@@ -88,15 +89,15 @@ class ClienteController {
       .where("cliente_id", cliente.id)
       .delete();
 
-    const newFones = telefone.map(fone => ({
+    const newFones = telefone.map((fone) => ({
       numero: fone.numero,
       whats_app: fone.whats_app,
-      cliente_id: fone.cliente_id
+      cliente_id: fone.cliente_id,
     }));
 
-    const newEmails = email.map(mail => ({
+    const newEmails = email.map((mail) => ({
       email: mail.email,
-      cliente_id: mail.cliente_id
+      cliente_id: mail.cliente_id,
     }));
 
     await cliente.telefone().createMany(newFones, trx);
