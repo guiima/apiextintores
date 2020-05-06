@@ -61,7 +61,7 @@ class ClienteController {
       .where("id", params.id)
       .fetch();
 
-    console.log("entrei no show de clientes");
+    // console.log("entrei no show de clientes");
 
     return data;
   }
