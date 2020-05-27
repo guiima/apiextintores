@@ -55,3 +55,5 @@ Route.post("buscaEndereco", "ClienteItemController.buscaEndereco");
 Route.post("buscadata", "ClienteItemController.buscaData");
 
 Route.get("clienteall/:id", "ClienteItemController.clienteAll");
+
+Route.get("clienteDeConsultor/:id", "ClienteController.clienteDeConsultor");

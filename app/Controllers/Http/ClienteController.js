@@ -17,6 +17,18 @@ class ClienteController {
     return data;
   }
 
+  async clienteDeConsultor({ params }) {
+    const data = await Cliente.query()
+      .where("status", true)
+      .where("usuario_id", params.id)
+      .with("usuario")
+      .with("telefone")
+      .with("email")
+      .fetch();
+
+    return data;
+  }
+
   async store({ request }) {
     const data = request.only([
       "nome_fantasia",
