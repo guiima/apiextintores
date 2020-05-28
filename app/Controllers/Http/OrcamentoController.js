@@ -10,6 +10,7 @@ class OrcamentoController {
       .orderBy("created_at", "desc")
       .with("cliente")
       .with("item_orcamento")
+      .where("status", "aberto")
       .fetch();
 
     return data;
@@ -29,9 +30,25 @@ class OrcamentoController {
     return orcamento;
   }
 
-  async show({ params, request, response, view }) {}
+  async show({ params }) {
+    const data = await Orcamento.query()
+      .with("cliente")
+      .with("item_orcamento")
+      .where("id", params.id)
+      .fetch();
 
-  async update({ params, request, response }) {}
+    return data;
+  }
+
+  async update({ params, request }) {
+    const orcamento = await Orcamento.findOrFail(params.id);
+    const data = request.only(["status"]);
+
+    orcamento.merge(data);
+    await orcamento.save();
+
+    return orcamento;
+  }
 
   async destroy({ params, request, response }) {}
 }

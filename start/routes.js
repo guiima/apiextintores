@@ -42,6 +42,8 @@ Route.resource("orcamentos", "OrcamentoController").apiOnly();
 
 Route.resource("itempedido", "ItemPedidoController").apiOnly();
 
+Route.resource("itemorcamento", "ItemOrcamentoController").apiOnly();
+
 Route.post("pedidodata", "PesquisaPedidoController.show");
 
 Route.post("pedidodatasoma", "PesquisaPedidoController.sumTotal");
@@ -57,3 +59,7 @@ Route.post("buscadata", "ClienteItemController.buscaData");
 Route.get("clienteall/:id", "ClienteItemController.clienteAll");
 
 Route.get("clienteDeConsultor/:id", "ClienteController.clienteDeConsultor");
+
+Route.post("orcamentodata", "PesquisaOrcamentoController.show");
+
+Route.post("pedidoorcamento", "PedidoOrcamentoController.store");

@@ -4,9 +4,7 @@ const Usuario = use("App/Models/Usuario");
 
 class UsuarioController {
   async index() {
-    const data = await Usuario.query()
-      .where("status", true)
-      .fetch();
+    const data = await Usuario.query().where("status", true).fetch();
 
     return data;
   }
@@ -28,6 +26,8 @@ class UsuarioController {
   async update({ params, request }) {
     const usuario = await Usuario.findOrFail(params.id);
     const data = request.only(["nome", "login", "senha", "tipo", "status"]);
+
+    console.log("dateee", data);
 
     usuario.merge(data);
     await usuario.save();

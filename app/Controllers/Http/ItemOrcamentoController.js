@@ -1,93 +1,26 @@
-'use strict'
+"use strict";
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+const ItemOrcamento = use("App/Models/ItemOrcamento");
 
-/**
- * Resourceful controller for interacting with itemorcamentos
- */
 class ItemOrcamentoController {
-  /**
-   * Show a list of all itemorcamentos.
-   * GET itemorcamentos
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {}
+
+  async create({ request, response, view }) {}
+
+  async store({ request, response }) {}
+
+  async show({ params }) {
+    const data = await ItemOrcamento.query()
+      .where("orcamento_id", params.id)
+      .with("produto")
+      .fetch();
+
+    return data;
   }
 
-  /**
-   * Render a form to be used for creating a new itemorcamento.
-   * GET itemorcamentos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
+  async update({ params, request, response }) {}
 
-  /**
-   * Create/save a new itemorcamento.
-   * POST itemorcamentos
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
-  }
-
-  /**
-   * Display a single itemorcamento.
-   * GET itemorcamentos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing itemorcamento.
-   * GET itemorcamentos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update itemorcamento details.
-   * PUT or PATCH itemorcamentos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a itemorcamento with id.
-   * DELETE itemorcamentos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy({ params, request, response }) {}
 }
 
-module.exports = ItemOrcamentoController
+module.exports = ItemOrcamentoController;

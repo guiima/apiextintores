@@ -11,6 +11,7 @@ class PedidoController {
       .orderBy("created_at", "desc")
       .with("cliente")
       .with("item_pedido")
+      .where("status", "aberto")
       .fetch();
 
     return data;
@@ -21,14 +22,14 @@ class PedidoController {
       "valor_pago",
       "valor_total",
       "status",
-      "cliente_id"
+      "cliente_id",
     ]);
 
     const itens_pedido = request.input("itens");
 
     const trx = await Database.beginTransaction();
 
-    itens_pedido.map(async item => {
+    itens_pedido.map(async (item) => {
       await Database.table("produtos")
         .where("id", item.produto_id)
         .decrement("qtd_atual", item.quantidade, trx);
