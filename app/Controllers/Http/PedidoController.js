@@ -23,6 +23,7 @@ class PedidoController {
       "valor_total",
       "status",
       "cliente_id",
+      "entregue",
     ]);
 
     const itens_pedido = request.input("itens");

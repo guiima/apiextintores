@@ -5,11 +5,12 @@ const Schema = use("Schema");
 
 class PedidoSchema extends Schema {
   up() {
-    this.create("pedidos", table => {
+    this.create("pedidos", (table) => {
       table.increments();
       table.decimal("valor_pago").notNullable();
       table.decimal("valor_total").notNullable();
       table.enu("status", ["aberto", "pago"]).notNullable();
+      table.boolean("entregue").notNullable();
       table
         .integer("cliente_id")
         .unsigned()

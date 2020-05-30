@@ -19,6 +19,10 @@ class Pedido extends Model {
   cliente() {
     return this.belongsTo("App/Models/Cliente");
   }
+
+  forma_pagamento() {
+    return this.hasOne("App/Models/FormaPagamento");
+  }
 }
 
 module.exports = Pedido;
