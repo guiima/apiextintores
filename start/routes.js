@@ -63,3 +63,5 @@ Route.get("clienteDeConsultor/:id", "ClienteController.clienteDeConsultor");
 Route.post("orcamentodata", "PesquisaOrcamentoController.show");
 
 Route.post("pedidoorcamento", "PedidoOrcamentoController.store");
+
+Route.get("carga", "CargaController.index");
