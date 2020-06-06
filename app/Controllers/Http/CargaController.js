@@ -2,6 +2,7 @@
 
 const Pedido = use("App/Models/Pedido");
 const Cliente = use("App/Models/Cliente");
+const Database = use("Database");
 
 class CargaController {
   async index() {
@@ -17,11 +18,15 @@ class CargaController {
     return data;
   }
 
-  async pesquisaPorCpf() {}
+  async pedidosEntregues({ request }) {
+    const { itens } = request.only(["itens"]);
 
-  async pesquisaPorEndereco() {}
-
-  async pesquisaPorData() {}
+    itens.map(async (item) => {
+      await Database.table("pedidos")
+        .where("id", item)
+        .update("entregue", "true");
+    });
+  }
 }
 
 module.exports = CargaController;
