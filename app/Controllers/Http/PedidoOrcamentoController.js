@@ -13,6 +13,7 @@ class PedidoOrcamentoController {
       "valor_total",
       "status",
       "cliente_id",
+      "entregue",
     ]);
 
     const orcamento_id = request.input("orcamento_id");

@@ -12,6 +12,20 @@ class UsuarioController {
     return data;
   }
 
+  async addCasco({ request }) {
+    const { tipo, classe } = request.only(["tipo", "classe"]);
+    console.log(tipo, classe);
+
+    const tipoCasco = `${tipo}-Casco`;
+    const data = await Extintor.query()
+      .where("status", true)
+      .where("tipo", tipoCasco)
+      .where("classe", classe)
+      .fetch();
+
+    return data;
+  }
+
   async store({ request }) {
     const data = request.only([
       "tipo",
@@ -23,7 +37,7 @@ class UsuarioController {
       "qtd_minima",
       "validade",
       "categoria",
-      "status"
+      "status",
     ]);
 
     const usuario = await Extintor.create(data);
@@ -49,7 +63,7 @@ class UsuarioController {
       "qtd_minima",
       "validade",
       "categoria",
-      "status"
+      "status",
     ]);
 
     usuario.merge(data);

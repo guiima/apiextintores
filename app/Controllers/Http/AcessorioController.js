@@ -12,6 +12,16 @@ class AcessorioController {
     return data;
   }
 
+  async buscaMangueira() {
+    const data = await Acessorio.query()
+      .where("status", true)
+      .where("categoria", "acessorio")
+      .where("nome", "MANGUEIRA")
+      .fetch();
+
+    return data;
+  }
+
   async store({ request }) {
     const data = request.only([
       "nome",
@@ -19,7 +29,7 @@ class AcessorioController {
       "qtd_atual",
       "qtd_minima",
       "categoria",
-      "status"
+      "status",
     ]);
 
     const usuario = await Acessorio.create(data);
@@ -41,7 +51,7 @@ class AcessorioController {
       "qtd_atual",
       "qtd_minima",
       "categoria",
-      "status"
+      "status",
     ]);
 
     usuario.merge(data);

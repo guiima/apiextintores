@@ -67,3 +67,7 @@ Route.post("pedidoorcamento", "PedidoOrcamentoController.store");
 Route.get("carga", "CargaController.index");
 
 Route.post("carga", "CargaController.pedidosEntregues");
+
+Route.get("buscaMangueira", "AcessorioController.buscaMangueira");
+
+Route.post("addCasco", "ExtintorController.addCasco");
