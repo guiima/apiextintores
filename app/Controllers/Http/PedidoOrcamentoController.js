@@ -3,6 +3,7 @@
 const Database = use("Database");
 const Orcamento = use("App/Models/Orcamento");
 const Pedido = use("App/Models/Pedido");
+const Comissao = use("App/Models/Comissao");
 
 class PedidoOrcamentoController {
   async index() {}
@@ -15,6 +16,12 @@ class PedidoOrcamentoController {
       "cliente_id",
       "entregue",
     ]);
+
+    const funcionario_id = request.input("funcionario_id");
+    const porcentagem_comissao = request.input("porcentagem_comissao");
+    const meta = request.input("meta");
+
+    const valor_comissao = data.valor_total * (porcentagem_comissao / 100);
 
     const orcamento_id = request.input("orcamento_id");
 
@@ -30,6 +37,63 @@ class PedidoOrcamentoController {
 
     const pedido = await Pedido.create(data, trx);
     await pedido.item_pedido().createMany(itens_pedido, trx);
+
+    const now = new Date();
+
+    const dia = now.getDate();
+
+    const mes = now.getMonth() + 1;
+
+    let ano = now.getFullYear();
+
+    const dataHoje = `${ano}-${mes}-${dia}`;
+
+    console.log("dataHoje", dataHoje);
+
+    const comissao = {
+      valor_total: valor_comissao,
+      valor_pago: 0,
+      valor_receber: 0,
+      isvalid: false,
+      status: "aberta",
+      pedido_id: pedido.id,
+      usuario_id: funcionario_id,
+      criacao: dataHoje,
+    };
+
+    await Comissao.create(comissao, trx);
+
+    console.log("mes", mes);
+    console.log("ano", ano);
+
+    const data_inicial = `${ano}-${mes}-01`;
+
+    let novoMes = mes + 1;
+
+    if (novoMes === 13) {
+      novoMes = 1;
+      ano = ano + 1;
+    }
+
+    const data_final = `${ano}-${novoMes}-01`;
+
+    const sumComissao = await Database.from("comissaos")
+      .sum("valor_total")
+      .where("criacao", ">=", data_inicial)
+      .where("criacao", "<", data_final);
+
+    const totalComissao =
+      parseInt(sumComissao[0].sum) + parseInt(valor_comissao);
+
+    console.log("totalComissao", totalComissao);
+    console.log("sumComissao.sum", sumComissao[0].sum);
+
+    console.log("meta", meta);
+    if (totalComissao >= meta) {
+      console.log("bati a meta caraaaaaaaai!");
+    } else {
+      console.log("NÃO bati a meta!");
+    }
 
     const orcamento = await Orcamento.findOrFail(orcamento_id, trx);
 

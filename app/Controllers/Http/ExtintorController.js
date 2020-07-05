@@ -14,7 +14,6 @@ class UsuarioController {
 
   async addCasco({ request }) {
     const { tipo, classe } = request.only(["tipo", "classe"]);
-    console.log(tipo, classe);
 
     const tipoCasco = `${tipo}-Casco`;
     const data = await Extintor.query()

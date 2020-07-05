@@ -73,8 +73,6 @@ class ClienteController {
       .where("id", params.id)
       .fetch();
 
-    // console.log("entrei no show de clientes");
-
     return data;
   }
 
@@ -82,11 +80,6 @@ class ClienteController {
     const cliente = await Cliente.findOrFail(params.id);
 
     const { telefone, email, ...data } = request.body;
-
-    // console.log("foneee", telefone);
-    // console.log("email", email);
-    // console.log("dataaa", data);
-    // console.log("cliente", cliente);
 
     const trx = await Database.beginTransaction();
 
@@ -118,40 +111,6 @@ class ClienteController {
     await trx.commit();
 
     return request.body;
-
-    // const cliente = await Cliente.query()
-    //   .with("usuario")
-    //   .with("telefone")
-    //   .with("email")
-    //   .where("id", params.id)
-    //   .fetch();
-
-    // const { telefone, email, ...data } = request.only([
-    //   "nome_fantasia",
-    //   "razao_social",
-    //   "tipo_pessoa",
-    //   "metragem",
-    //   "cpf",
-    //   "cnpj",
-    //   "endereco",
-    //   "cep",
-    //   "mei",
-    //   "data_nascimento",
-    //   "responsavel",
-    //   "observacao",
-    //   "inscricao_estadual",
-    //   "privado",
-    //   "status",
-    //   "usuario_id"
-    // ]);
-
-    // cliente.merge(data);
-    // await cliente.save();
-
-    // console.log("foneee", telefone);
-    // console.log("foneee", email);
-
-    // return cliente;
   }
 
   async destroy({ params }) {

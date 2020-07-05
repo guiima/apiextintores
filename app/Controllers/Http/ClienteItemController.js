@@ -7,12 +7,10 @@ const Usuario = use("App/Models/Usuario");
 class ClienteItemController {
   async store({ request }) {
     const { nome_fantasia, id } = request.only(["nome_fantasia", "id"]);
-    console.log("id", id);
 
     const response = JSON.stringify(await Usuario.findBy("id", id));
 
     const usuario = JSON.parse(response);
-    console.log("user", usuario.tipo);
 
     if (usuario.tipo === "administrador") {
       const data = await Cliente.query()

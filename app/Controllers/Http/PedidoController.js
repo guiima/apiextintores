@@ -41,8 +41,6 @@ class PedidoController {
 
     await trx.commit();
 
-    console.log("entrei em pedidos");
-
     return pedido;
   }
 

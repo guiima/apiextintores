@@ -5,17 +5,16 @@ const Schema = use("Schema");
 
 class UsuarioSchema extends Schema {
   up() {
-    this.create("usuarios", table => {
+    this.create("usuarios", (table) => {
       table.increments();
       table.string("nome").notNullable();
-      table
-        .string("login")
-        .notNullable()
-        .unique();
+      table.string("login").notNullable().unique();
       table.string("senha").notNullable();
       table.enu("tipo", ["administrador", "consultor"]).notNullable();
       //---- 0 o uruario não está ativo e 1 está ativo ----
       table.boolean("status").notNullable();
+      table.integer("meta").notNullable();
+      table.integer("porcentagem_comissao").notNullable();
       table.timestamps();
     });
   }

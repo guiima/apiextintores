@@ -5,9 +5,14 @@ const Schema = use("Schema");
 
 class ComissaoSchema extends Schema {
   up() {
-    this.create("comissaos", table => {
+    this.create("comissaos", (table) => {
       table.increments();
-      table.decimal("valor").notNullable();
+      table.decimal("valor_total").notNullable();
+      table.decimal("valor_pago").notNullable();
+      table.decimal("valor_receber").notNullable();
+      table.boolean("isvalid").notNullable();
+      table.enu("status", ["aberta", "fechada"]).notNullable();
+      table.date("criacao").notNullable();
       table
         .integer("pedido_id")
         .unsigned()

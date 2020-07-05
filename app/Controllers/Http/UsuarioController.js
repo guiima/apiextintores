@@ -10,7 +10,15 @@ class UsuarioController {
   }
 
   async store({ request }) {
-    const data = request.only(["nome", "login", "senha", "tipo", "status"]);
+    const data = request.only([
+      "nome",
+      "login",
+      "senha",
+      "tipo",
+      "status",
+      "meta",
+      "porcentagem_comissao",
+    ]);
 
     const usuario = await Usuario.create(data);
 
@@ -25,9 +33,15 @@ class UsuarioController {
 
   async update({ params, request }) {
     const usuario = await Usuario.findOrFail(params.id);
-    const data = request.only(["nome", "login", "senha", "tipo", "status"]);
-
-    console.log("dateee", data);
+    const data = request.only([
+      "nome",
+      "login",
+      "senha",
+      "tipo",
+      "status",
+      "meta",
+      "porcentagem_comissao",
+    ]);
 
     usuario.merge(data);
     await usuario.save();
