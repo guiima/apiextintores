@@ -119,16 +119,48 @@ class PedidoController {
     const pedido = await Pedido.findOrFail(params.id);
     const data = request.only(["valor_pago", "status"]);
 
-    data.valor_pago = parseInt(data.valor_pago) + parseInt(pedido.valor_pago);
+    console.log("data1", data);
+    console.log("data2", data.valor_pago);
 
-    if (data.valor_pago >= pedido.valor_total) {
+    const total_pago = parseInt(data.valor_pago) + parseInt(pedido.valor_pago);
+
+    console.log("data3", data.valor_pago);
+
+    if (total_pago >= pedido.valor_total) {
       data.status = "pago";
     } else {
       data.status = "aberto";
     }
 
-    pedido.merge(data);
-    await pedido.save();
+    const trx = await Database.beginTransaction();
+
+    const comissao = await Database.table("comissaos", trx).where(
+      "pedido_id",
+      params.id
+    );
+
+    const usuario = await Database.table("usuarios", trx).where(
+      "id",
+      comissao[0].usuario_id
+    );
+
+    const porcentagem_comissao = usuario[0].porcentagem_comissao;
+
+    const valor_comissao =
+      parseInt(data.valor_pago) * (porcentagem_comissao / 100);
+
+    const novo_valor_comissao =
+      valor_comissao + parseInt(comissao[0].valor_pago);
+
+    await Database.table("comissaos", trx)
+      .where("id", comissao[0].id)
+      .update("valor_pago", novo_valor_comissao);
+
+    await Database.table("pedidos", trx)
+      .where("id", params.id)
+      .update("valor_pago", total_pago);
+
+    await trx.commit();
 
     return pedido;
   }
