@@ -3,6 +3,7 @@
 const Database = use("Database");
 const Pedido = use("App/Models/Pedido");
 const Produto = use("App/Models/Produto");
+const Comissao = use("App/Models/Comissao");
 
 class PedidoController {
   async index() {
@@ -28,6 +29,12 @@ class PedidoController {
 
     const itens_pedido = request.input("itens");
 
+    const porcentagem_comissao = request.input("porcentagem_comissao");
+    const meta = request.input("meta");
+    const funcionario_id = request.input("funcionario_id");
+
+    const valor_comissao = data.valor_total * (porcentagem_comissao / 100);
+
     const trx = await Database.beginTransaction();
 
     itens_pedido.map(async (item) => {
@@ -38,6 +45,60 @@ class PedidoController {
 
     const pedido = await Pedido.create(data, trx);
     await pedido.item_pedido().createMany(itens_pedido, trx);
+
+    const now = new Date();
+
+    const dia = now.getDate();
+
+    const mes = now.getMonth() + 1;
+
+    let ano = now.getFullYear();
+
+    const dataHoje = `${ano}-${mes}-${dia}`;
+
+    const data_inicial = `${ano}-${mes}-01`;
+
+    let novoMes = mes + 1;
+
+    if (novoMes === 13) {
+      novoMes = 1;
+      ano = ano + 1;
+    }
+
+    const data_final = `${ano}-${novoMes}-01`;
+
+    const sumComissao = await Database.from("comissaos", trx)
+      .sum("valor_total")
+      .where("criacao", ">=", data_inicial)
+      .where("criacao", "<", data_final);
+
+    const totalComissao =
+      parseInt(sumComissao[0].sum) + parseInt(valor_comissao);
+
+    let isvalid = false;
+
+    if (totalComissao >= meta) {
+      await Database.table("comissaos", trx)
+        .where("criacao", ">=", data_inicial)
+        .where("criacao", "<", data_final)
+        .update("isvalid", true);
+      isvalid = true;
+    } else {
+      console.log("NÃO bati a meta!");
+    }
+
+    const comissao = {
+      valor_total: valor_comissao,
+      valor_pago: 0,
+      valor_receber: 0,
+      isvalid: isvalid,
+      status: "aberta",
+      pedido_id: pedido.id,
+      usuario_id: funcionario_id,
+      criacao: dataHoje,
+    };
+
+    await Comissao.create(comissao, trx);
 
     await trx.commit();
 
