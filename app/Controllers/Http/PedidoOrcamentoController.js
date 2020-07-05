@@ -48,24 +48,6 @@ class PedidoOrcamentoController {
 
     const dataHoje = `${ano}-${mes}-${dia}`;
 
-    console.log("dataHoje", dataHoje);
-
-    const comissao = {
-      valor_total: valor_comissao,
-      valor_pago: 0,
-      valor_receber: 0,
-      isvalid: false,
-      status: "aberta",
-      pedido_id: pedido.id,
-      usuario_id: funcionario_id,
-      criacao: dataHoje,
-    };
-
-    await Comissao.create(comissao, trx);
-
-    console.log("mes", mes);
-    console.log("ano", ano);
-
     const data_inicial = `${ano}-${mes}-01`;
 
     let novoMes = mes + 1;
@@ -77,7 +59,7 @@ class PedidoOrcamentoController {
 
     const data_final = `${ano}-${novoMes}-01`;
 
-    const sumComissao = await Database.from("comissaos")
+    const sumComissao = await Database.from("comissaos", trx)
       .sum("valor_total")
       .where("criacao", ">=", data_inicial)
       .where("criacao", "<", data_final);
@@ -85,15 +67,30 @@ class PedidoOrcamentoController {
     const totalComissao =
       parseInt(sumComissao[0].sum) + parseInt(valor_comissao);
 
-    console.log("totalComissao", totalComissao);
-    console.log("sumComissao.sum", sumComissao[0].sum);
+    let isvalid = false;
 
-    console.log("meta", meta);
     if (totalComissao >= meta) {
-      console.log("bati a meta caraaaaaaaai!");
+      await Database.table("comissaos", trx)
+        .where("criacao", ">=", data_inicial)
+        .where("criacao", "<", data_final)
+        .update("isvalid", true);
+      isvalid = true;
     } else {
       console.log("NÃO bati a meta!");
     }
+
+    const comissao = {
+      valor_total: valor_comissao,
+      valor_pago: 0,
+      valor_receber: 0,
+      isvalid: isvalid,
+      status: "aberta",
+      pedido_id: pedido.id,
+      usuario_id: funcionario_id,
+      criacao: dataHoje,
+    };
+
+    await Comissao.create(comissao, trx);
 
     const orcamento = await Orcamento.findOrFail(orcamento_id, trx);
 
