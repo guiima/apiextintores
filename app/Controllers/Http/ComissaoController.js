@@ -1,93 +1,36 @@
-'use strict'
+"use strict";
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+const Database = use("Database");
 
-/**
- * Resourceful controller for interacting with comissaos
- */
 class ComissaoController {
-  /**
-   * Show a list of all comissaos.
-   * GET comissaos
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async index() {
+    const comissoes = await Database.from("comissaos")
+      .where("isvalid", true)
+      .where("valor_receber", ">", 0);
+
+    const sumComissoes = await Database.from("comissaos")
+      .sum("valor_receber")
+      .where("isvalid", true)
+      .where("valor_receber", ">", 0);
+
+    console.log("com", sumComissoes[0]);
+    console.log("com2", comissoes);
+
+    const objt = {
+      sum: sumComissoes[0].sum,
+      json: comissoes,
+    };
+
+    return objt;
   }
 
-  /**
-   * Render a form to be used for creating a new comissao.
-   * GET comissaos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
+  async store({ request, response }) {}
 
-  /**
-   * Create/save a new comissao.
-   * POST comissaos
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
-  }
+  async show({ params, request, response, view }) {}
 
-  /**
-   * Display a single comissao.
-   * GET comissaos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
+  async update({ params, request, response }) {}
 
-  /**
-   * Render a form to update an existing comissao.
-   * GET comissaos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update comissao details.
-   * PUT or PATCH comissaos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a comissao with id.
-   * DELETE comissaos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy({ params, request, response }) {}
 }
 
-module.exports = ComissaoController
+module.exports = ComissaoController;

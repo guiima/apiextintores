@@ -71,3 +71,5 @@ Route.post("carga", "CargaController.pedidosEntregues");
 Route.get("buscaMangueira", "AcessorioController.buscaMangueira");
 
 Route.post("addCasco", "ExtintorController.addCasco");
+
+Route.resource("comissoes", "ComissaoController").apiOnly();

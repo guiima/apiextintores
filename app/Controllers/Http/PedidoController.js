@@ -154,7 +154,7 @@ class PedidoController {
 
     await Database.table("comissaos", trx)
       .where("id", comissao[0].id)
-      .update("valor_pago", novo_valor_comissao);
+      .update("valor_receber", novo_valor_comissao);
 
     await Database.table("pedidos", trx)
       .where("id", params.id)
