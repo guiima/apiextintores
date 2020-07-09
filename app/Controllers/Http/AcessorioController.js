@@ -1,6 +1,7 @@
 "use strict";
 
 const Acessorio = use("App/Models/Produto");
+const Database = use("Database");
 
 class AcessorioController {
   async index() {
@@ -12,11 +13,15 @@ class AcessorioController {
     return data;
   }
 
-  async buscaMangueira() {
+  async buscaMangueira({ request }) {
+    const { tipo } = request.only(["tipo", "classe"]);
+
+    const novoTipo = tipo.toUpperCase();
+
     const data = await Acessorio.query()
       .where("status", true)
       .where("categoria", "acessorio")
-      .where("nome", "MANGUEIRA")
+      .where("nome", `MANGUEIRA-${novoTipo}`)
       .fetch();
 
     return data;
