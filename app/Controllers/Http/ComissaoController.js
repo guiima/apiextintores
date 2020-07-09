@@ -50,6 +50,22 @@ class ComissaoController {
     return objt;
   }
 
+  async pagarUmaComissao({ params }) {
+    const comissao = await Database.from("comissaos")
+      .where("id", params.id)
+      .update("valor_receber", 0);
+
+    return comissao;
+  }
+
+  async pagarTodasComissoes({ params }) {
+    const comissao = await Database.from("comissaos")
+      .where("usuario_id", params.id)
+      .update("valor_receber", 0);
+
+    return comissao;
+  }
+
   async update({ params, request, response }) {}
 
   async destroy({ params, request, response }) {}

@@ -73,3 +73,7 @@ Route.get("buscaMangueira", "AcessorioController.buscaMangueira");
 Route.post("addCasco", "ExtintorController.addCasco");
 
 Route.resource("comissoes", "ComissaoController").apiOnly();
+
+Route.get("pagarUmaComissao/:id", "ComissaoController.pagarUmaComissao");
+
+Route.get("pagarTodasComissoes/:id", "ComissaoController.pagarTodasComissoes");
