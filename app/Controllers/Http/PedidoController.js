@@ -33,6 +33,8 @@ class PedidoController {
     const meta = request.input("meta");
     const funcionario_id = request.input("funcionario_id");
 
+    console.log("meta", meta);
+
     const valor_comissao = data.valor_total * (porcentagem_comissao / 100);
 
     const trx = await Database.beginTransaction();
@@ -67,20 +69,34 @@ class PedidoController {
 
     const data_final = `${ano}-${novoMes}-01`;
 
-    const sumComissao = await Database.from("comissaos", trx)
+    let sumComissao = await Database.from("comissaos", trx)
       .sum("valor_total")
       .where("criacao", ">=", data_inicial)
-      .where("criacao", "<", data_final);
+      .where("criacao", "<", data_final)
+      .where("usuario_id", funcionario_id);
+
+    if (sumComissao[0].sum === null) {
+      sumComissao[0].sum = "0";
+    }
+    console.log("sumComissao", sumComissao);
+
+    console.log("valor_comissao", valor_comissao);
 
     const totalComissao =
-      parseInt(sumComissao[0].sum) + parseInt(valor_comissao);
+      parseFloat(sumComissao[0].sum) + parseFloat(valor_comissao);
+
+    console.log("totalComissao", totalComissao);
+
+    const metaPorcentagem = meta * (porcentagem_comissao / 100);
+    console.log("metaPorcentagem", metaPorcentagem);
 
     let isvalid = false;
 
-    if (totalComissao >= meta) {
+    if (totalComissao >= metaPorcentagem) {
       await Database.table("comissaos", trx)
         .where("criacao", ">=", data_inicial)
         .where("criacao", "<", data_final)
+        .where("usuario_id", funcionario_id)
         .update("isvalid", true);
       isvalid = true;
     } else {
