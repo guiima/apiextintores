@@ -39,9 +39,6 @@ class ComissaoController {
       .where("valor_receber", ">", 0)
       .where("usuario_id", params.id);
 
-    console.log("com", sumComissoes[0]);
-    console.log("com2", comissoes);
-
     const objt = {
       sum: sumComissoes[0].sum,
       json: comissoes,

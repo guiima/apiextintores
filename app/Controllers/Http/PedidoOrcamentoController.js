@@ -59,24 +59,32 @@ class PedidoOrcamentoController {
 
     const data_final = `${ano}-${novoMes}-01`;
 
-    const sumComissao = await Database.from("comissaos", trx)
+    let sumComissao = await Database.from("comissaos", trx)
       .sum("valor_total")
       .where("criacao", ">=", data_inicial)
-      .where("criacao", "<", data_final);
+      .where("criacao", "<", data_final)
+      .where("usuario_id", funcionario_id);
+
+    if (sumComissao[0].sum === null) {
+      sumComissao[0].sum = "0";
+    }
 
     const totalComissao =
-      parseInt(sumComissao[0].sum) + parseInt(valor_comissao);
+      parseFloat(sumComissao[0].sum) + parseFloat(valor_comissao);
+
+    const metaPorcentagem = meta * (porcentagem_comissao / 100);
 
     let isvalid = false;
 
-    if (totalComissao >= meta) {
+    if (totalComissao >= metaPorcentagem) {
       await Database.table("comissaos", trx)
         .where("criacao", ">=", data_inicial)
         .where("criacao", "<", data_final)
+        .where("usuario_id", funcionario_id)
         .update("isvalid", true);
       isvalid = true;
     } else {
-      console.log("NÃO bati a meta!");
+      // console.log("NÃO bati a meta!");
     }
 
     const comissao = {

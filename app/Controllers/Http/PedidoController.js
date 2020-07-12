@@ -33,8 +33,6 @@ class PedidoController {
     const meta = request.input("meta");
     const funcionario_id = request.input("funcionario_id");
 
-    console.log("meta", meta);
-
     const valor_comissao = data.valor_total * (porcentagem_comissao / 100);
 
     const trx = await Database.beginTransaction();
@@ -78,17 +76,11 @@ class PedidoController {
     if (sumComissao[0].sum === null) {
       sumComissao[0].sum = "0";
     }
-    console.log("sumComissao", sumComissao);
-
-    console.log("valor_comissao", valor_comissao);
 
     const totalComissao =
       parseFloat(sumComissao[0].sum) + parseFloat(valor_comissao);
 
-    console.log("totalComissao", totalComissao);
-
     const metaPorcentagem = meta * (porcentagem_comissao / 100);
-    console.log("metaPorcentagem", metaPorcentagem);
 
     let isvalid = false;
 
@@ -100,7 +92,7 @@ class PedidoController {
         .update("isvalid", true);
       isvalid = true;
     } else {
-      console.log("NÃO bati a meta!");
+      // console.log("NÃO bati a meta!");
     }
 
     const comissao = {
@@ -135,12 +127,7 @@ class PedidoController {
     const pedido = await Pedido.findOrFail(params.id);
     const data = request.only(["valor_pago", "status"]);
 
-    console.log("data1", data);
-    console.log("data2", data.valor_pago);
-
     const total_pago = parseInt(data.valor_pago) + parseInt(pedido.valor_pago);
-
-    console.log("data3", data.valor_pago);
 
     if (total_pago >= pedido.valor_total) {
       data.status = "pago";
