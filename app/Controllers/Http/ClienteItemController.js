@@ -1,7 +1,7 @@
 "use strict";
 
 const Cliente = use("App/Models/Cliente");
-const ItemPeido = use("App/Models/ItemPedido");
+// const ItemPeido = use("App/Models/ItemPedido");
 const Usuario = use("App/Models/Usuario");
 
 class ClienteItemController {
@@ -38,8 +38,37 @@ class ClienteItemController {
 
   async buscacpf({ request }) {
     const { cpf } = request.only(["cpf"]);
+
     const data = await Cliente.query()
       .where("cpf", "like", `%${cpf}%`)
+      .with("pedido", (pedido) => {
+        pedido.with("item_pedido", (item) => {
+          item.with("produto");
+        });
+      })
+      .fetch();
+    return data;
+  }
+
+  async buscacnpj({ request }) {
+    const { cnpj } = request.only(["cnpj"]);
+
+    const data = await Cliente.query()
+      .where("cnpj", "like", `%${cnpj}%`)
+      .with("pedido", (pedido) => {
+        pedido.with("item_pedido", (item) => {
+          item.with("produto");
+        });
+      })
+      .fetch();
+    return data;
+  }
+
+  async buscaResponsavel({ request }) {
+    const { responsavel } = request.only(["responsavel"]);
+
+    const data = await Cliente.query()
+      .where("responsavel", "like", `%${responsavel}%`)
       .with("pedido", (pedido) => {
         pedido.with("item_pedido", (item) => {
           item.with("produto");

@@ -77,3 +77,7 @@ Route.resource("comissoes", "ComissaoController").apiOnly();
 Route.get("pagarUmaComissao/:id", "ComissaoController.pagarUmaComissao");
 
 Route.get("pagarTodasComissoes/:id", "ComissaoController.pagarTodasComissoes");
+
+Route.post("clienteporcnpj", "ClienteItemController.buscacnpj");
+
+Route.post("clienteporresponsavel", "ClienteItemController.buscaResponsavel");
