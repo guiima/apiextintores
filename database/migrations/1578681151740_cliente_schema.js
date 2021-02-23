@@ -13,6 +13,7 @@ class ClienteSchema extends Schema {
       table.decimal("metragem");
       table.integer("numero_pavimentos");
       table.string("cpf");
+      table.string("rg").unique();
       table.string("cnpj");
       table.string("endereco").notNullable().unique();
       table.string("cep").notNullable();
