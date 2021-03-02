@@ -60,7 +60,7 @@ Route.get("clienteall/:id", "ClienteItemController.clienteAll");
 
 Route.get("clienteDeConsultor/:id", "ClienteController.clienteDeConsultor");
 
-Route.post("orcamentodata", "PesquisaOrcamentoController.show");
+Route.post("orcamentodata", "PesquisaOrcamentoController.buscaPorData");
 
 Route.post("pedidoorcamento", "PedidoOrcamentoController.store");
 
@@ -81,3 +81,8 @@ Route.get("pagarTodasComissoes/:id", "ComissaoController.pagarTodasComissoes");
 Route.post("clienteporcnpj", "ClienteItemController.buscacnpj");
 
 Route.post("clienteporresponsavel", "ClienteItemController.buscaResponsavel");
+
+Route.post(
+  "orcamentoporresponsavel",
+  "PesquisaOrcamentoController.buscaNomaFantasia"
+);
