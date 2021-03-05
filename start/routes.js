@@ -44,7 +44,7 @@ Route.resource("itempedido", "ItemPedidoController").apiOnly();
 
 Route.resource("itemorcamento", "ItemOrcamentoController").apiOnly();
 
-Route.post("pedidodata", "PesquisaPedidoController.show");
+Route.post("pedidodata", "PesquisaPedidoController.buscapordata");
 
 Route.post("pedidodatasoma", "PesquisaPedidoController.sumTotal");
 
@@ -83,6 +83,30 @@ Route.post("clienteporcnpj", "ClienteItemController.buscacnpj");
 Route.post("clienteporresponsavel", "ClienteItemController.buscaResponsavel");
 
 Route.post(
-  "orcamentoporresponsavel",
+  "orcamentopornomefantasia",
   "PesquisaOrcamentoController.buscaNomaFantasia"
 );
+
+Route.post("orcamentoporcnpj", "PesquisaOrcamentoController.buscaCnpj");
+
+Route.post("orcamentoporcpf", "PesquisaOrcamentoController.buscaCpf");
+
+Route.post("orcamentoporendereco", "PesquisaOrcamentoController.buscaEndereco");
+
+Route.post(
+  "orcamentoporresponsavel",
+  "PesquisaOrcamentoController.buscaResponsavel"
+);
+
+Route.post(
+  "pedidopornomefantasia",
+  "PesquisaPedidoController.buscaNomaFantasia"
+);
+
+Route.post("pedidoporcnpj", "PesquisaPedidoController.buscaCnpj");
+
+Route.post("pedidoporcpf", "PesquisaPedidoController.buscaCpf");
+
+Route.post("pedidoporendereco", "PesquisaPedidoController.buscaEndereco");
+
+Route.post("pedidoporresponsavel", "PesquisaPedidoController.buscaResponsavel");

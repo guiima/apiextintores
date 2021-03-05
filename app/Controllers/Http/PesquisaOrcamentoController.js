@@ -6,8 +6,6 @@ const Cliente = use("App/Models/Cliente");
 class PesquisaOrcamentoController {
   async index() {}
 
-  async store({ request }) {}
-
   async buscaPorData({ request }) {
     const { data_inicio, data_final } = request.only([
       "data_inicio",
@@ -36,9 +34,60 @@ class PesquisaOrcamentoController {
     return data;
   }
 
-  async update({ params, request, response }) {}
+  async buscaCnpj({ request }) {
+    const { cnpj } = request.only(["cnpj"]);
 
-  async destroy({ params, request, response }) {}
+    const data = await Cliente.query()
+      .where("cnpj", "like", `%${cnpj}%`)
+      .with("orcamento", (orcamento) => {
+        orcamento.with("item_orcamento", (item) => {
+          item.with("orcamento");
+        });
+      })
+      .fetch();
+    return data;
+  }
+
+  async buscaCpf({ request }) {
+    const { cpf } = request.only(["cpf"]);
+
+    const data = await Cliente.query()
+      .where("cpf", "like", `%${cpf}%`)
+      .with("orcamento", (orcamento) => {
+        orcamento.with("item_orcamento", (item) => {
+          item.with("orcamento");
+        });
+      })
+      .fetch();
+    return data;
+  }
+
+  async buscaEndereco({ request }) {
+    const { endereco } = request.only(["endereco"]);
+    const data = await Cliente.query()
+      .where("endereco", "like", `%${endereco}%`)
+      .with("orcamento", (orcamento) => {
+        orcamento.with("item_orcamento", (item) => {
+          item.with("orcamento");
+        });
+      })
+      .fetch();
+    return data;
+  }
+
+  async buscaResponsavel({ request }) {
+    const { responsavel } = request.only(["responsavel"]);
+
+    const data = await Cliente.query()
+      .where("responsavel", "like", `%${responsavel}%`)
+      .with("orcamento", (orcamento) => {
+        orcamento.with("item_orcamento", (item) => {
+          item.with("orcamento");
+        });
+      })
+      .fetch();
+    return data;
+  }
 }
 
 module.exports = PesquisaOrcamentoController;
